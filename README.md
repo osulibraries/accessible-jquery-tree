@@ -1,10 +1,15 @@
-Code Examples from the book [Designing with Progressive Enhancement](http://filamentgroup.com/dwpe)
-================================
+# Accessible jQuery Tree
+### A keyboard and screen reader accessible tree structure build using jQuery.
 
-This repository includes open-sourced code developed and maintained by Filament Group, Inc. as part of the book "Designing With Progressive Enhancement" (Peachpit).
+## Originally...
 
-Those who purchase the book can access all of the examples from the book at the following URL: http://filamentgroup.com/dwpe#codeexamples.
+This repository includes open-sourced code originally developed by Filament
+Group, Inc. as part of the book "Designing With Progressive Enhancement"
+(Peachpit). The code itself is distributed under the [MIT License](https://github.com/osulibraries/accessible-jquery-tree/raw/master/license.txt).
 
-All examples use the [jQuery JavaScript library](http://jquery.com).
+## Why Fork?
 
-These code examples use the [EnhanceJS framework](https://github.com/filamentgroup/EnhanceJS) for applying progressive enhancement based on browser capabilities testing.
+This fork was created by the OSU Libraries for their [Knowledge
+Bank](https://kb.osu.edu/dspace). It includes the removal of some examples
+originally present for the book being developed by Filament Group, Inc. among
+other changes.

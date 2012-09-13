@@ -1,0 +1,14 @@
+{
+  "name": "accessible-jquery-tree",
+  "version": "0.1.0-SNAPSHOT",
+  "description": "A UI tree widget created with accessiblity in mind.",
+  "author": "Ryan McGowan <ryan@ryanmcg.com>",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/osulibraries/accessible-jquery-tree.git"
+  },
+  "devDependencies": {
+    "uglify-js": "~1",
+    "jake": ">=0.3"
+  }
+}

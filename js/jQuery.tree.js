@@ -8,113 +8,112 @@
  */
 
 (function ($) {
-    $.fn.tree = function (settings) {
-      var o = $.extend({
-          expanded: ''
-      }, settings);
+  $.fn.tree = function (settings) {
+    var o = $.extend({
+        expanded: ''
+    }, settings);
 
-      var self = $(this).each(function () {
-        if (!$(this).parents('.tree').length) {
-          // Save reference to tree UL
-          var tree = $(this);
+    var self = $(this).each(function () {
+      if (!$(this).parents('.tree').length) {
+        // Save reference to tree UL
+        var tree = $(this);
 
-          // Add the role and default state attributes
-          if (!$('body').is('[role]')) {
-            $('body').attr('role','application');
-          }
-          // Add role and class of tree
-          tree.attr({'role': 'tree'}).addClass('tree');
-          // Set first node's tabindex to 0
-          tree.find('a:eq(0)').attr('tabindex','0');
-          // Set all others to -1
-          tree.find('a:gt(0)').attr('tabindex','-1');
-          // Add group role and tree-group-collapsed class to all ul children
-          tree.find('ul').attr('role','group').addClass('tree-group-collapsed');
-          // Add treeitem role to all li children
-          tree.find('li').attr('role','treeitem');
-          // Find tree group parents
-          tree.find('li:has(ul)')
-          .attr('aria-expanded', 'false')
-          .find('>a')
-          .addClass('tree-parent tree-parent-collapsed');
+        // Add the role and default state attributes
+        if (!$('body').is('[role]')) {
+          $('body').attr('role','application');
+        }
+        // Add role and class of tree
+        tree.attr({'role': 'tree'}).addClass('tree');
+        // Set first node's tabindex to 0
+        tree.find('a:eq(0)').attr('tabindex','0');
+        // Set all others to -1
+        tree.find('a:gt(0)').attr('tabindex','-1');
+        // Add group role and tree-group-collapsed class to all ul children
+        tree.find('ul').attr('role','group').addClass('tree-group-collapsed');
+        // Add treeitem role to all li children
+        tree.find('li').attr('role','treeitem');
+        // Find tree group parents
+        tree.find('li:has(ul)')
+        .attr('aria-expanded', 'false')
+        .find('>a')
+        .addClass('tree-parent tree-parent-collapsed');
 
-          // Expanded at load
-          tree .find(o.expanded)
-          .attr('aria-expanded', 'true')
-          .find('>a')
-          .removeClass('tree-parent-collapsed')
-          .next()
-          .removeClass('tree-group-collapsed');
+        // Expanded at load
+        tree .find(o.expanded)
+        .attr('aria-expanded', 'true')
+        .find('>a')
+        .removeClass('tree-parent-collapsed')
+        .next()
+        .removeClass('tree-group-collapsed');
 
 
-          // Bind the custom events
-          tree
-          // Expand a tree node
-          .bind('expand', function (event) {
-            var target = $(event.target) || tree.find('a[tabindex=0]');
-            target.removeClass('tree-parent-collapsed');
-            target.next().hide().removeClass('tree-group-collapsed')
-            .slideDown(150, function () {
-              $(this).removeAttr('style');
-              target.parent().attr('aria-expanded', 'true');
-            });
-          })
-          // Collapse a tree node
-          .bind('collapse', function (event) {
-            var target = $(event.target) || tree.find('a[tabindex=0]');
-            target.addClass('tree-parent-collapsed');
-            target.next().slideUp(150, function () {
-              target.parent().attr('aria-expanded', 'false');
-              $(this).addClass('tree-group-collapsed').removeAttr('style');
-            });
-          })
-          .bind('toggle', function (event) {
-            var target = $(event.target) || tree.find('a[tabindex=0]');
-            // Check if target parent LI is collapsed
-            if (target.parent().is('[aria-expanded=false]')) {
-              // Call expand function on the target
-              target.trigger('expand');
-            } else {
-              // Otherwise, parent must be expanded
-              // Collapse the target
-              target.trigger('collapse');
-            }
-          })
-          // Shift focus down one item
-          .bind('traverseDown', function (event) {
-            var target = $(event.target) || tree.find('a[tabindex=0]');
-            var targetLi = target.parent();
-            if (targetLi.is('[aria-expanded=true]')) {
-              target.next().find('a').eq(0).focus();
-            } else if (targetLi.next().length) {
-              targetLi.next().find('a').eq(0).focus();
-            } else {
-              targetLi.parents('li').next().find('a').eq(0).focus();
-            }
-          })
-          // Shift focus up one item
-          .bind('traverseUp', function (event) {
-            var target = $(event.target) || tree.find('a[tabindex=0]');
-            var targetLi = target.parent();
-            if (targetLi.prev().length) {
-              if (targetLi.prev().is('[aria-expanded=true]')) {
-                targetLi.prev().find('li:visible:last a').eq(0).focus();
-              } else {
-                targetLi.prev().find('a').eq(0).focus();
-              }
-            } else {
-              targetLi.parents('li:eq(0)').find('a').eq(0).focus();
-            }
+        // Bind the custom events
+        tree
+        // Expand a tree node
+        .bind('expand', function (event) {
+          var target = $(event.target) || tree.find('a[tabindex=0]');
+          target.removeClass('tree-parent-collapsed');
+          target.next().hide().removeClass('tree-group-collapsed')
+          .slideDown(150, function () {
+            $(this).removeAttr('style');
+            target.parent().attr('aria-expanded', 'true');
           });
+        })
+        // Collapse a tree node
+        .bind('collapse', function (event) {
+          var target = $(event.target) || tree.find('a[tabindex=0]');
+          target.addClass('tree-parent-collapsed');
+          target.next().slideUp(150, function () {
+            target.parent().attr('aria-expanded', 'false');
+            $(this).addClass('tree-group-collapsed').removeAttr('style');
+          });
+        })
+        .bind('toggle', function (event) {
+          var target = $(event.target) || tree.find('a[tabindex=0]');
+          // Check if target parent LI is collapsed
+          if (target.parent().is('[aria-expanded=false]')) {
+            // Call expand function on the target
+            target.trigger('expand');
+          } else {
+            // Otherwise, parent must be expanded
+            // Collapse the target
+            target.trigger('collapse');
+          }
+        })
+        // Shift focus down one item
+        .bind('traverseDown', function (event) {
+          var target = $(event.target) || tree.find('a[tabindex=0]');
+          var targetLi = target.parent();
+          if (targetLi.is('[aria-expanded=true]')) {
+            target.next().find('a').eq(0).focus();
+          } else if (targetLi.next().length) {
+            targetLi.next().find('a').eq(0).focus();
+          } else {
+            targetLi.parents('li').next().find('a').eq(0).focus();
+          }
+        })
+        // Shift focus up one item
+        .bind('traverseUp', function (event) {
+          var target = $(event.target) || tree.find('a[tabindex=0]');
+          var targetLi = target.parent();
+          if (targetLi.prev().length) {
+            if (targetLi.prev().is('[aria-expanded=true]')) {
+              targetLi.prev().find('li:visible:last a').eq(0).focus();
+            } else {
+              targetLi.prev().find('a').eq(0).focus();
+            }
+          } else {
+            targetLi.parents('li:eq(0)').find('a').eq(0).focus();
+          }
+        });
 
-
-          // And now for the native events
-          tree.focus(function (event) {
-            // Deactivate previously active tree node, if one exists
-            tree.find('[tabindex=0]').attr('tabindex','-1').removeClass('tree-item-active');
-            // Assign 0 tabindex to focused item
-            $(event.target).attr('tabindex','0').addClass('tree-item-active');
-          }).click(function (event) {
+        // And now for the native events
+        tree.focus(function (event) {
+          // Deactivate previously active tree node, if one exists
+          tree.find('[tabindex=0]').attr('tabindex','-1').removeClass('tree-item-active');
+          // Assign 0 tabindex to focused item
+          $(event.target).attr('tabindex','0').addClass('tree-item-active');
+        }).click(function (event) {
           // Save reference to event target
           var target = $(event.target);
           // Check if target is a tree node
@@ -124,7 +123,7 @@
             // Return click event false because it's a tree node (folder)
             return false;
           }
-          }).keydown(function (event) {
+        }).keydown(function (event) {
           var target = tree.find('a[tabindex=0]');
           // Check for arrow keys
           if (event.keyCode == 37 || event.keyCode == 38 || event.keyCode == 39 || event.keyCode == 40) {
@@ -164,8 +163,8 @@
             // Return click event false because it's a tree node (folder)
             return false;
           }
-          });
-        }
-      });
-    };
+        });
+      }
+    });
+  };
 })(jQuery);

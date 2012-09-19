@@ -27,10 +27,6 @@ desc('The default task');
 task('default', ['js/jQuery.tree.js'], function (params) {});
 
 desc('Minify the javascript plugin.');
-file('js/jQuery.tree.js', ['requirements'], function (params) {
+file('js/jQuery.tree.js', [], function (params) {
   minifyPath('js/jQuery.tree.js');
-});
-
-desc('Minify the javascript plugin.');
-task('requirements', [], function (params) {
 });
